@@ -7,6 +7,8 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -43,4 +45,13 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e,sys)
 
+if __name__=="__main__":
+    obj=DataIngestion()
+    train_data,test_data=obj.initiate_data_ingestion()
 
+    data_transformation=DataTransformation()
+    train_arr,test_arr,preprocessor_path=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    print(f"Training array: {train_arr}")
+    print(f"Testing array: {test_arr}")
+    print(f"Preprocessor path: {preprocessor_path}")
