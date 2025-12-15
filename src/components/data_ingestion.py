@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
@@ -23,7 +24,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data Ingestion menthod")
         try:
-            df = pd.read_csv("/Users/varadaraj/Desktop/VS CODE/Varada-vscode/MLOPS/mlproject/notebook/data/stud.csv")
+            df = pd.read_csv("C:/Desktop/Varada-vscode/MLOPS/mlproject/notebook/data/stud.csv")
             logging.info("Data imported for processing")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
@@ -45,13 +46,16 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e,sys)
 
-# if __name__=="__main__":
-#     obj=DataIngestion()
-#     train_data,test_data=obj.initiate_data_ingestion()
+if __name__=="__main__":
+    obj=DataIngestion()
+    train_data,test_data=obj.initiate_data_ingestion()
 
-#     data_transformation=DataTransformation()
-#     train_arr,test_arr,preprocessor_path=data_transformation.initiate_data_transformation(train_data,test_data)
+    data_transformation=DataTransformation()
+    train_arr,test_arr,preprocessor_path=data_transformation.initiate_data_transformation(train_data,test_data)
 
-#     print(f"Training array: {train_arr}")
-#     print(f"Testing array: {test_arr}")
-#     print(f"Preprocessor path: {preprocessor_path}")
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr=train_arr,test_arr=test_arr))
+
+    # print(f"Training array: {train_arr}")
+    # print(f"Testing array: {test_arr}")
+    # print(f"Preprocessor path: {preprocessor_path}")
